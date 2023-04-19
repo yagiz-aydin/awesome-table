@@ -38,7 +38,7 @@ const UserList = () => {
     setEditing(user);
   };
 
-  const onSubmitEditRow = async () => {};
+  const editOnSubmit = async () => {};
 
   const deleteRow = async (user: IUser) => {
     console.log(user);
@@ -47,13 +47,15 @@ const UserList = () => {
   return (
     <>
       <Modal title="Edit User" open={!!editing} closeModal={setEditing}>
-        <Form form={editing} columns={columns} onSubmit={onSubmitEditRow} />
+        <Form form={editing} columns={columns} onSubmit={editOnSubmit} />
       </Modal>
       <DataTable
         tableDatas={userDatas}
         columns={columns}
         onEdit={editRow}
         onDelete={deleteRow}
+        redirectKey="id"
+        redirectTo="/user-detail/"
       />
     </>
   );

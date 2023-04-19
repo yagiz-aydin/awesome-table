@@ -13,7 +13,7 @@ export default function Router() {
       <Fragment>
         <Routes>
           <Route path="/" element={<UserList />} />
-          <Route path="/user-detail" element={<UserDetail />} />
+          <Route path="/user-detail/:id" element={<UserDetail />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Fragment>

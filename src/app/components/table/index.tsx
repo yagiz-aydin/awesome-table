@@ -9,24 +9,37 @@ import {
   BodyRow,
   BodyCell,
   TableButton,
+  TableLink,
 } from './styled';
 import DeleteIcon from '../../assets/images/delete.png';
 import EditIcon from '../../assets/images/edit.png';
 
-const DataTable = ({ tableDatas, columns, onEdit, onDelete }: ITableProps) => {
+const DataTable = ({
+  tableDatas,
+  columns,
+  onEdit,
+  onDelete,
+  redirectKey,
+  redirectTo
+}: ITableProps) => {
   const Row = ({ row }: { row: ITableRow }) => (
     <BodyRow>
       {Object.keys(row).map((_, key) => (
         <BodyCell key={key}>
-          {row[columns[key].value as keyof typeof row]}
+          {columns[key].value === redirectKey ? (
+            <TableLink
+              to={`${redirectTo}${row[columns[key].value as keyof typeof row]}`}
+            >
+              {row[columns[key].value as keyof typeof row]}
+            </TableLink>
+          ) : (
+            row[columns[key].value as keyof typeof row]
+          )}
         </BodyCell>
       ))}
       <BodyCell>
         {onEdit && (
-          <TableButton
-            onClick={() => onEdit(row)}
-            hoverColor={'#7b7bc736'}
-          >
+          <TableButton onClick={() => onEdit(row)} hoverColor={'#7b7bc736'}>
             <img src={EditIcon} />
           </TableButton>
         )}

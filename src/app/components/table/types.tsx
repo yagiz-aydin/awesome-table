@@ -5,6 +5,8 @@ export interface ITableProps {
     columns: Array<IColumnProps>
     onEdit?: Function
     onDelete?: Function
+    redirectKey?: string
+    redirectTo?: string
 }
 
 export interface IColumnProps{
