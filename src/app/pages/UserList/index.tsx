@@ -1,58 +1,62 @@
 import React from 'react';
 import { IUser } from '../../types/dto';
-import { DataTable } from '../../components';
+import { DataTable, Modal, Form } from '../../components';
 import { getUsers } from '../../../agent';
 
 const UserList = () => {
-    const [userDatas, setUserDatas] = React.useState<Array<IUser>>([]);
+  const [userDatas, setUserDatas] = React.useState<Array<IUser>>([]);
+  const [editing, setEditing] = React.useState<IUser>();
 
-    React.useEffect(() => {
-        getTableUsers()
-    },[])
+  React.useEffect(() => {
+    getTableUsers();
+  }, []);
 
-    const getTableUsers = async () => {
-        const usersResponse = await getUsers();
-        setUserDatas(usersResponse)
-    }
-    
-    const columns = [{
-        label: 'ID',
-        value: 'id'
+  const getTableUsers = async () => {
+    const usersResponse = await getUsers();
+    setUserDatas(usersResponse);
+  };
+
+  const columns = [
+    {
+      label: 'ID',
+      value: 'id',
     },
     {
-        label: 'First Name',
-        value: 'firstname'
+      label: 'First Name',
+      value: 'firstname',
     },
     {
-        label: 'Last Name',
-        value: 'lastname'
+      label: 'Last Name',
+      value: 'lastname',
     },
     {
-        label: 'Edit',
-    }, 
-    {
-        label: 'Delete',
-    }, 
-]
-    
-    const editRow = async (user: IUser) => {
-        console.log(user)
-    }
+      label: 'Settings',
+    },
+  ];
 
-    const deleteRow = async (user: IUser) => {
-        console.log(user)
-    }
+  const editRow = async (user: IUser) => {
+    setEditing(user);
+  };
 
-    return(
-        <>
-            <DataTable 
-                tableDatas={userDatas}
-                columns={columns}
-                onEdit={editRow}
-                onDelete={deleteRow}
-            />
-        </>
-    )
-}
+  const onSubmitEditRow = async () => {};
+
+  const deleteRow = async (user: IUser) => {
+    console.log(user);
+  };
+
+  return (
+    <>
+      <Modal title="Edit User" open={!!editing} closeModal={setEditing}>
+        <Form form={editing} columns={columns} onSubmit={onSubmitEditRow} />
+      </Modal>
+      <DataTable
+        tableDatas={userDatas}
+        columns={columns}
+        onEdit={editRow}
+        onDelete={deleteRow}
+      />
+    </>
+  );
+};
 
 export default UserList;

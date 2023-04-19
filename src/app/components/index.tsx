@@ -1,3 +1,5 @@
 import DataTable from './table';
+import Form from './form';
+import Modal from './modal';
 
-export { DataTable }
+export { DataTable, Form, Modal }
