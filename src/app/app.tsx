@@ -1,16 +1,11 @@
-import styled from 'styled-components';
-
-import NxWelcome from './nx-welcome';
-
-const StyledApp = styled.div`
-  // Your style here
-`;
+import Router from "./utils/router";
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from './utils/config';
+import React from "react";
 
 export function App() {
   return (
-    <StyledApp>
-      <NxWelcome title="demo-table" />
-    </StyledApp>
+    <Router/>
   );
 }
 

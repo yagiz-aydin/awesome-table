@@ -1,5 +1,5 @@
 {
-  "name": "demo-table",
+  "name": "awesome-table",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "./src",
   "projectType": "application",
@@ -9,7 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/demo-table"
+        "outputPath": "dist/awesome-table"
       },
       "configurations": {
         "development": {
@@ -24,15 +24,15 @@
       "executor": "@nrwl/vite:dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "demo-table:build"
+        "buildTarget": "awesome-table:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "demo-table:build:development",
+          "buildTarget": "awesome-table:build:development",
           "hmr": true
         },
         "production": {
-          "buildTarget": "demo-table:build:production",
+          "buildTarget": "awesome-table:build:production",
           "hmr": false
         }
       }
@@ -41,23 +41,23 @@
       "executor": "@nrwl/vite:preview-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "demo-table:build"
+        "buildTarget": "awesome-table:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "demo-table:build:development"
+          "buildTarget": "awesome-table:build:development"
         },
         "production": {
-          "buildTarget": "demo-table:build:production"
+          "buildTarget": "awesome-table:build:production"
         }
       }
     },
     "test": {
       "executor": "@nrwl/vite:test",
-      "outputs": ["coverage/demo-table"],
+      "outputs": ["coverage/awesome-table"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "coverage/demo-table"
+        "reportsDirectory": "coverage/awesome-table"
       }
     },
     "lint": {
@@ -70,7 +70,7 @@
     "serve-static": {
       "executor": "@nrwl/web:file-server",
       "options": {
-        "buildTarget": "demo-table:build"
+        "buildTarget": "awesome-table:build"
       }
     }
   },
