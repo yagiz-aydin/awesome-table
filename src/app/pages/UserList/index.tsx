@@ -26,8 +26,13 @@ const UserList = () => {
     {
         label: 'Last Name',
         value: 'lastname'
-    }
-    , 
+    },
+    {
+        label: 'Edit',
+    }, 
+    {
+        label: 'Delete',
+    }, 
 ]
     
     const editRow = async (user: IUser) => {

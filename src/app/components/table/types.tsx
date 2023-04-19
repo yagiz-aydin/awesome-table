@@ -8,6 +8,6 @@ export interface ITableProps {
 }
 
 export interface IColumnProps{
-    value: string
+    value?: string
     label: string
 }
