@@ -6,9 +6,11 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx/tasks-runners/default",
+      "runner": "@vercel/remote-nx",
       "options": {
-        "cacheableOperations": ["build", "lint", "test"]
+        "cacheableOperations": ["build", "lint", "test"],
+        "token": "5BBkHkH2Gt1aRmrQfQpDlFdM",
+        "cacheDirectory":"/tmp/nx-cache"
       }
     }
   },
