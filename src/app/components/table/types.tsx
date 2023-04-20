@@ -1,4 +1,5 @@
-import { IUser } from "src/app/types/DTO"
+import { IUser } from "../../types/DTO"
+import { IColumnProps } from "../../types/"
 
 export interface ITableProps {
     tableDatas: Array<ITableRow> 
@@ -10,13 +11,5 @@ export interface ITableProps {
     loading?: boolean
 }
 
-export interface IColumnProps{
-    value?: string
-    label: string
-}
-
 export type ITableRow = IUser | any // More additional types | Array<IProduct> ...
 
-export interface ButtonProps {
-  hoverColor?: string;
-}

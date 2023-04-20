@@ -9,9 +9,10 @@ export const FormContainer = styled.form`
 `
 
 export const InputContainer = styled.div`
-  display: flex;
+  display: ${({hidden}) => hidden ? 'none':'flex'};
   flex-direction: column;
   margin: 8px 0px;
+  
 `
 
 export const LabelText = styled.span`
@@ -21,11 +22,4 @@ export const LabelText = styled.span`
 
 export const Input = styled.input`
   padding: 6px 12px;
-`
-export const SubmitButton = styled.button`
-  padding: 6px 12px;
-  margin-top: 8px;
-  background: #474747;
-  color: white;
-  cursor: pointer;
 `

@@ -8,13 +8,13 @@ import {
   HeadCell,
   BodyRow,
   BodyCell,
-  TableButton,
   TableLink,
   HeadRow,
 } from './styled';
 import DeleteIcon from '../../assets/images/delete.png';
 import EditIcon from '../../assets/images/edit.png';
 import ContentLoader from 'react-content-loader';
+import Button from '../button';
 
 const DataTable = ({
   tableDatas,
@@ -25,10 +25,11 @@ const DataTable = ({
   redirectTo,
   loading,
 }: ITableProps) => {
+  const skeletonRowLength = 4
   const Row = ({ row }: { row: ITableRow }) => (
     <BodyRow>
-      {Object.keys(row).map((_, key) => (
-        <BodyCell key={key}>
+      {Object.keys(row).map((parameter, key) => (
+        !columns[key]?.hidden && <BodyCell key={key}>
           {columns[key].value === redirectKey ? (
             <TableLink
               to={`${redirectTo}${row[columns[key].value as keyof typeof row]}`}
@@ -42,14 +43,10 @@ const DataTable = ({
       ))}
       <BodyCell>
         {onEdit && (
-          <TableButton onClick={() => onEdit(row)} hoverColor={'#7b7bc736'}>
-            <img src={EditIcon} />
-          </TableButton>
+          <Button.Table onClick={() => onEdit(row)} hoverColor='#7b7bc736' img={EditIcon}/>
         )}
         {onDelete && (
-          <TableButton onClick={() => onDelete()} hoverColor={'#cf95954a'}>
-            <img src={DeleteIcon} />
-          </TableButton>
+          <Button.Table onClick={() => onDelete(row)} hoverColor='#cf95954a' img={DeleteIcon}/>
         )}
       </BodyCell>
     </BodyRow>
@@ -57,7 +54,7 @@ const DataTable = ({
 
   const RowOnLoading = () =><BodyRow>
   {columns.map((column, key) => (
-    <BodyCell>
+     !column?.hidden && <BodyCell>
       <ContentLoader
         speed={2}
         width="100%"
@@ -78,20 +75,22 @@ const DataTable = ({
   ))}
 </BodyRow>
 
+  const NoDataView = () => <>0 User Data found</>
+
   return (
     <TableContainer>
       <Table>
         <TableHead>
           <HeadRow>
             {columns.map((column, key) => (
-              <HeadCell key={key}>{column.label}</HeadCell>
+              !column.hidden &&<HeadCell key={key}>{column.label}</HeadCell>
             ))}
           </HeadRow>
         </TableHead>
         <TableBody>
           {loading
-            ? [1, 2].map((i) => <RowOnLoading />)
-            : tableDatas.map((row, key) => <Row row={row} />)}
+            ? Array.from(Array(skeletonRowLength).keys()).map((i) => <RowOnLoading />)
+            : tableDatas.length > 0 ? tableDatas.map((row, key) => <Row row={row} />) : <NoDataView/>}
         </TableBody>
       </Table>
     </TableContainer>

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ButtonProps } from './types';
 
 export const TableContainer = styled.div`
   border-radius: 12px;
@@ -70,21 +69,6 @@ export const Form = styled.form`
     margin: 18px;
   }
 `
-
-export const TableButton = styled.button`
-  border: none;
-  background: transparent;
-  border-radius: 24px;
-  cursor: pointer;
-  transition: 0.3s;
-  &:hover {
-    background: ${({ hoverColor }: ButtonProps) => hoverColor};
-  }
-  img {
-    height: 18px;
-    width: 18px;
-  }
-`;
 
 export const TableLink = styled(Link)(() => `
     display: flex;  
