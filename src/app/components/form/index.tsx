@@ -8,7 +8,7 @@ import {
 } from './styled';
 import { IFormData, IFormProps } from './types';
 
-const Form = ({ form, setForm, columns, onSubmit, requiredFields, disabledFields, hiddenFields }: IFormProps) => {
+const Form = ({ form, setForm, fields, onSubmit, requiredFields, disabledFields, hiddenFields }: IFormProps) => {
   const handleChanges = (event: React.ChangeEvent<HTMLInputElement>, key: string) =>
     setForm((prevState: IFormData) => ({
       ...prevState,
@@ -20,22 +20,22 @@ const Form = ({ form, setForm, columns, onSubmit, requiredFields, disabledFields
       initialValues={{}}
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(true);
-        onSubmit();
+        onSubmit(form);
       }}
     >
-      {({ values, handleBlur, handleSubmit, isSubmitting, dirty, isValid }) => (
+      {({ handleBlur, handleSubmit, isSubmitting }) => (
         <FormContainer onSubmit={handleSubmit}>
           {Object.keys(form).map((name, key) => (
             <InputContainer key={key} hidden={hiddenFields?.includes(name)}>
-              <LabelText>{columns[key].value}</LabelText>
+              <LabelText>{fields[key].value}</LabelText>
               <Input
                 type="text"
-                required={requiredFields?.includes(`${[columns[key].value]}`)}
+                required={requiredFields?.includes(`${[fields[key].value]}`)}
                 name={name}
-                disabled={disabledFields?.includes(`${[columns[key].value]}`) || isSubmitting}
-                onChange={(event) => handleChanges(event, `${[columns[key].value]}`)}
+                disabled={disabledFields?.includes(`${[fields[key].value]}`) || isSubmitting}
+                onChange={(event) => handleChanges(event, `${[fields[key].value]}`)}
                 onBlur={handleBlur}
-                value={form[columns[key].value as keyof typeof form]}
+                value={form[fields[key].value as keyof typeof form]}
               />
             </InputContainer>
           ))}

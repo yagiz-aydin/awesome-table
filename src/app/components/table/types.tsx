@@ -6,6 +6,7 @@ export interface ITableProps {
     columns: Array<IColumnProps>
     onEdit?: Function
     onDelete?: Function
+    linkKey?: string
     redirectKey?: string
     redirectTo?: string
     loading?: boolean

@@ -1,8 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc } from 'firebase/firestore/lite';
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc } from 'firebase/firestore/lite';
 import { IUser } from 'src/app/types/dto';
 import { firebaseConfig } from '../app/utils/config';
-import uuid from 'uuid-random';
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -14,18 +13,31 @@ const getUsers = async () => {
   return userList as IUser[];
 }
 
+const getUserDetail = async (pk: string) => {
+  const docRef = doc(db, "users", pk);
+  const usersSnapshot = await getDoc(docRef);
+  if(!usersSnapshot.exists()){
+    return 'Does not exist'
+  }
+  const _user = {pk: usersSnapshot.id, ...usersSnapshot.data()}  
+  return _user as IUser;
+}
+
 const addUser = async (user: IUser) => {
   const docRef = doc(db, "users", user.pk);
-  await setDoc(docRef, user);
+  const response = await setDoc(docRef, user);
+  return response
 }
 
 const editUser = async (user: IUser) => {
   const docRef = doc(db, "users", user.pk);
-  await setDoc(docRef, user);
+  const response = await setDoc(docRef, user);
+  return response
 }
 
 const deleteUser = async (user: IUser) => {
-  await deleteDoc(doc(db, "users", user.pk));
+  const response = await deleteDoc(doc(db, "users", user.pk));
+  return response
 }
 
-export { getUsers, addUser, deleteUser, editUser }
+export { getUsers, getUserDetail, addUser, deleteUser, editUser }

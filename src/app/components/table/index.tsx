@@ -22,6 +22,7 @@ const DataTable = ({
   onEdit,
   onDelete,
   redirectKey,
+  linkKey,
   redirectTo,
   loading,
 }: ITableProps) => {
@@ -30,9 +31,9 @@ const DataTable = ({
     <BodyRow>
       {Object.keys(row).map((parameter, key) => (
         !columns[key]?.hidden && <BodyCell key={key}>
-          {columns[key].value === redirectKey ? (
+          {columns[key].value === linkKey ? (
             <TableLink
-              to={`${redirectTo}${row[columns[key].value as keyof typeof row]}`}
+              to={`${redirectTo}${row[`${redirectKey}`]}`}
             >
               {row[columns[key].value as keyof typeof row]}
             </TableLink>

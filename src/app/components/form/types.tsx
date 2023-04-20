@@ -5,7 +5,7 @@ export interface IFormProps{
   form: IFormData
   setForm: Function
   onSubmit: Function
-  columns: Array<IColumnProps>
+  fields: Array<IColumnProps>
   requiredFields?: Array<string>
   disabledFields?: Array<string>
   hiddenFields?: Array<string>

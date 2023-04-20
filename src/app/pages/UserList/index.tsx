@@ -1,11 +1,12 @@
 import React from 'react';
 import { IUser } from '../../types/dto';
 import { DataTable, Modal, Form, Button } from '../../components';
-import { getUsers, addUser, editUser, deleteUser } from '../../../agent';
 import { DefaultLayout } from '../../layouts';
 import { AddButtonContainer } from './styled';
-import uuid from 'uuid-random';
 import { IColumnProps } from "../../types/"
+import { useActionContext } from 'src/app/context';
+import { iniitalUserObject } from 'src/app/utils/initials';
+import uuid from 'uuid-random';
 
 const columns: Array<IColumnProps> = [
   {
@@ -31,30 +32,10 @@ const columns: Array<IColumnProps> = [
 ];
 
 const UserList = () => {
-  const iniitalUserObject: IUser = {
-    pk: uuid(),
-    id: '',
-    firstname: '',
-    lastname: '',
-  };
-
-  const [userDatas, setUserDatas] = React.useState<Array<IUser>>([]);
-  const [form, setForm] = React.useState<IUser>(iniitalUserObject);
-  const [loading, setLoading] = React.useState<boolean>(false);
-
+  const [tableData, setTableData] = React.useState<IUser[]>([]);
+  const [form, setForm] = React.useState<IUser>({...iniitalUserObject, pk: uuid()});
   const [openEditModal, setOpenEditModal] = React.useState<boolean>(false);
   const [openAddModal, setOpenAddModal] = React.useState<boolean>(false);
-
-  React.useEffect(() => {
-    getTableUsers();
-  }, []);
-
-  const getTableUsers = async () => {
-    setLoading(true);
-    const usersResponse = await getUsers();
-    setUserDatas(usersResponse);
-    setLoading(false);
-  };
 
   const editRow = async (user: IUser) => {
     setOpenEditModal(true);
@@ -62,29 +43,27 @@ const UserList = () => {
   };
 
   const onAddButtonClick = () => {
-    setForm(iniitalUserObject);
+    setForm({...iniitalUserObject, pk: uuid()});
     setOpenAddModal(true);
   };
 
-  const deleteRow = async (user: IUser) => {
-    setLoading(true);
-    await deleteUser(user);
-    await getTableUsers();
-    setLoading(false);
-  };
+  const {
+    GetUsers,
+    DeleteUser,
+    EditUser,
+    AddUser,
+    loading
+  } = useActionContext()
 
-  const editOnSubmit = async () => {
-    await editUser(form);
-    await getTableUsers();
-    setOpenEditModal(false);
-  };
+  React.useEffect(() => {
+    getTableData()
+  },[])
 
-  const addOnSubmit = async () => {
-    await addUser(form);
-    await getTableUsers();
-    setOpenAddModal(false);
-  };
+  const getTableData = async () =>{
+    GetUsers().then((users: IUser[]) => setTableData(users))
+  }
 
+  console.log(form)
   return (
     <DefaultLayout>
       <Modal
@@ -95,8 +74,12 @@ const UserList = () => {
         <Form
           form={form}
           setForm={setForm}
-          columns={columns}
-          onSubmit={editOnSubmit}
+          fields={columns}
+          onSubmit={async (user: IUser) => {
+            await EditUser(user)
+            await getTableData()
+            setOpenEditModal(false)
+          }}
           hiddenFields={['pk']}
           requiredFields={['id', 'firstname', 'lastname']}
         />
@@ -108,19 +91,27 @@ const UserList = () => {
         <Form
           form={form}
           setForm={setForm}
-          columns={columns}
-          onSubmit={addOnSubmit}
+          fields={columns}
+          onSubmit={async (user: IUser) => { 
+            await AddUser(user)
+            await getTableData()
+            setOpenAddModal(false)
+          }}
           hiddenFields={['pk']}
           requiredFields={['id', 'firstname', 'lastname']}
         />
       </Modal>
       <DataTable
         loading={loading}
-        tableDatas={userDatas}
+        tableDatas={tableData}
         columns={columns}
         onEdit={editRow}
-        onDelete={deleteRow}
-        redirectKey="id"
+        onDelete={async (user: IUser) => {
+          await DeleteUser(user)
+          await getTableData()
+        }}
+        linkKey="id"
+        redirectKey="pk"
         redirectTo="/user-detail/"
       />
     </DefaultLayout>
