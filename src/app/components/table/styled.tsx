@@ -14,6 +14,7 @@ export const Table = styled.table`
   max-width: 100%;
   white-space: nowrap;
   background-color: white;
+  table-layout: fixed;
   @media (max-width: 767px) {
       display: flex;
       border-collapse: none;
@@ -49,6 +50,8 @@ export const BodyRow = styled.tr`
       display: table-cell
   }
 `;
+
+export const HeadRow = styled.tr``;
 
 export const BodyCell = styled.td`
   text-align: center;

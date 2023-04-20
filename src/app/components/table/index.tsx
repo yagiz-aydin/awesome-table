@@ -10,9 +10,11 @@ import {
   BodyCell,
   TableButton,
   TableLink,
+  HeadRow,
 } from './styled';
 import DeleteIcon from '../../assets/images/delete.png';
 import EditIcon from '../../assets/images/edit.png';
+import ContentLoader from 'react-content-loader';
 
 const DataTable = ({
   tableDatas,
@@ -20,7 +22,8 @@ const DataTable = ({
   onEdit,
   onDelete,
   redirectKey,
-  redirectTo
+  redirectTo,
+  loading,
 }: ITableProps) => {
   const Row = ({ row }: { row: ITableRow }) => (
     <BodyRow>
@@ -52,18 +55,43 @@ const DataTable = ({
     </BodyRow>
   );
 
+  const RowOnLoading = () =><BodyRow>
+  {columns.map((column, key) => (
+    <BodyCell>
+      <ContentLoader
+        speed={2}
+        width="100%"
+        viewBox="0 0 800 42"
+        backgroundColor="#f3f3f3"
+        foregroundColor="#ecebeb"
+      >
+        <rect
+          x="0"
+          y="18"
+          rx="4"
+          ry="4"
+          width="100%"
+          height="42"
+        />
+      </ContentLoader>
+    </BodyCell>
+  ))}
+</BodyRow>
+
   return (
     <TableContainer>
       <Table>
         <TableHead>
-          {columns.map((column, key) => (
-            <HeadCell key={key}>{column.label}</HeadCell>
-          ))}
+          <HeadRow>
+            {columns.map((column, key) => (
+              <HeadCell key={key}>{column.label}</HeadCell>
+            ))}
+          </HeadRow>
         </TableHead>
         <TableBody>
-          {tableDatas.map((row, key) => (
-            <Row row={row} key={key} />
-          ))}
+          {loading
+            ? [1, 2].map((i) => <RowOnLoading />)
+            : tableDatas.map((row, key) => <Row row={row} />)}
         </TableBody>
       </Table>
     </TableContainer>

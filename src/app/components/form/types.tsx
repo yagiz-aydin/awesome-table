@@ -2,6 +2,7 @@ import { IUser } from "src/app/types/DTO"
 
 export interface IFormProps{
   form: IFormData
+  setForm: Function
   onSubmit: Function
   columns: Array<IColumnProps>
 }

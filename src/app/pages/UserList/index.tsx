@@ -2,18 +2,22 @@ import React from 'react';
 import { IUser } from '../../types/dto';
 import { DataTable, Modal, Form } from '../../components';
 import { getUsers } from '../../../agent';
+import { DefaultLayout } from '../../layouts';
 
 const UserList = () => {
   const [userDatas, setUserDatas] = React.useState<Array<IUser>>([]);
-  const [editing, setEditing] = React.useState<IUser>();
+  const [form, setForm] = React.useState<IUser>();
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     getTableUsers();
   }, []);
 
   const getTableUsers = async () => {
+    setLoading(true)
     const usersResponse = await getUsers();
     setUserDatas(usersResponse);
+    setLoading(false)
   };
 
   const columns = [
@@ -35,7 +39,7 @@ const UserList = () => {
   ];
 
   const editRow = async (user: IUser) => {
-    setEditing(user);
+    setForm(user);
   };
 
   const editOnSubmit = async () => {};
@@ -45,11 +49,12 @@ const UserList = () => {
   };
 
   return (
-    <>
-      <Modal title="Edit User" open={!!editing} closeModal={setEditing}>
-        <Form form={editing} columns={columns} onSubmit={editOnSubmit} />
+    <DefaultLayout>
+      <Modal title="Edit User" open={!!form} closeModal={setForm}>
+        <Form form={form} setForm={setForm} columns={columns} onSubmit={editOnSubmit} />
       </Modal>
       <DataTable
+        loading={loading}
         tableDatas={userDatas}
         columns={columns}
         onEdit={editRow}
@@ -57,7 +62,7 @@ const UserList = () => {
         redirectKey="id"
         redirectTo="/user-detail/"
       />
-    </>
+    </DefaultLayout>
   );
 };
 

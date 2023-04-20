@@ -7,6 +7,7 @@ export interface ITableProps {
     onDelete?: Function
     redirectKey?: string
     redirectTo?: string
+    loading?: boolean
 }
 
 export interface IColumnProps{
